@@ -2,7 +2,7 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
 from asgiref.sync import sync_to_async, async_to_sync
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.response import Response
 from .serializers import CreateTelegramUserSerializer
 from .models import TelegramUser
@@ -12,6 +12,7 @@ from .utils import send_message_via_tg_api
 class TelegramUserCreateAPIView(generics.CreateAPIView):
     serializer_class = CreateTelegramUserSerializer
     queryset = TelegramUser.objects.all()
+    permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
