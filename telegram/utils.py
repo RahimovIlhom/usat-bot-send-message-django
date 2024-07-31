@@ -1,7 +1,10 @@
 import httpx
 
+from utils.apis import send_exam_result
 from .serializers import CreateTelegramUserSerializer
 from environs import Env
+
+from utils.loader import db_bot as db
 
 env = Env()
 env.read_env()
@@ -16,7 +19,8 @@ MESSAGES = {
         'ACCEPTED': "✅ Arizangiz qabul qilindi. Quyidagi \"🧑‍💻 Imtihon topshirish\" tugmasini bosib, imtihon topshirishingiz mumkin!",
         'EXAMINED': "🔄 Imtihon topshirildi. Iltimos, natijasini kuting.",
         'FAILED': "😔 Afsuski imtihondan o'ta olmadingiz. Sizga yana bir imkoniyat beriladi. Buning uchun quyidagi \"🧑‍💻 Imtihon topshirish\" tugmasini bosing.",
-        'PASSED': "🥳 Tabriklaymiz! Siz Fan va texnologiyalar universitetiga tavsiya etildingiz. Quyidagi \"📥 Shartnomani olish\" tugmasi orqali shartnomani yuklab olishingiz mumkin.",
+        'PASSED': "🥳 Tabriklaymiz! Siz Fan va texnologiyalar universitetiga tavsiya etildingiz. Shartnomani https://qabul.usat.uz saytidagi shaxsiy kabinetdan yuklab olishingiz mumkin. Saytga kirish uchun parol sizga SMS xabar sifatida yuborilgan. Savollaringiz bo’lsa bizga qo’ng’iroq qiling: 78-888-38-88",
+        'PASSED_DTM': "🥳 Tabriklaymiz, siz imtihonsiz, UZBMB (DTM) natijangiz asosida Fan va texnologiyalar universitetiga talabalikka tavsiya etildingiz! Shartnomani https://qabul.usat.uz saytidagi shaxsiy kabinetdan yuklab olishingiz mumkin. Saytga kirish uchun parol sizga SMS xabar sifatida yuborilgan. Savollaringiz bo’lsa bizga qo’ng’iroq qiling: 78-888-38-88",
     },
     'ru': {
         'DRAFT': "⚠️ Ваша заявка находится в черновике. Пожалуйста, проверьте и отправьте вашу заявку.",
@@ -25,7 +29,9 @@ MESSAGES = {
         'ACCEPTED': "✅ Ваша заявка принята. Вы можете сдать экзамен, нажав на кнопку \"🧑‍💻 Сдать экзамен\" ниже!",
         'EXAMINED': "🔄 Экзамен сдан. Пожалуйста, ожидайте результат.",
         'FAILED': "😔 К сожалению, вы не прошли экзамен. Вам будет предоставлена еще одна возможность. Для этого нажмите кнопку \"🧑‍💻 Сдать экзамен\" ниже.",
-        'PASSED': "🥳 Поздравляем! Вы рекомендованы в Университет науки и технологий. Вы можете скачать договор, нажав на кнопку \"📥 Получить договор\" ниже.",
+        'PASSED': "🥳 Поздравляем! Вы рекомендованы к зачислению в Университет науки и технологий. Вы можете скачать контракт из вашего личного кабинета на сайте https://qabul.usat.uz. Пароль для входа на сайт был отправлен вам в SMS. Если у вас есть вопросы, позвоните нам: 78-888-38-88",
+        'PASSED_DTM': "🥳 Поздравляем, вы успешно прошли экзамен! На основе результатов UZBMB (DTM) вы рекомендованы к зачислению в Университет науки и технологий. Вы можете скачать контракт на сайте https://qabul.usat.uz в вашем личном кабинете. Пароль для входа на сайт был отправлен вам в SMS. Если у вас есть вопросы, позвоните нам: 78-888-38-88",
+
     },
     'en': {
         'DRAFT': "⚠️ Your application is in draft status. Please review and submit your application.",
@@ -34,7 +40,8 @@ MESSAGES = {
         'ACCEPTED': "✅ Your application has been accepted. You can take the exam by clicking the \"🧑‍💻 Take the exam\" button below!",
         'EXAMINED': "🔄 The exam has been taken. Please wait for the results.",
         'FAILED': "😔 Unfortunately, you did not pass the exam. You will be given another opportunity. To do this, click the \"🧑‍💻 Take the exam\" button below.",
-        'PASSED': "🥳 Congratulations! You have been recommended to the University of Science and Technology. You can download the contract by clicking the \"📥 Get the contract\" button below.",
+        'PASSED': "🥳 Congratulations! You have been recommended for admission to the University of Science and Technology. You can download the contract from your personal account on the website https://qabul.usat.uz. The password to access the site has been sent to you via SMS. If you have any questions, please call us at: 78-888-38-88",
+        'PASSED_DTM': "🥳 Congratulations, you have passed the exam! Based on your UZBMB (DTM) results, you have been recommended for admission to the University of Science and Technology. You can download the contract from your personal account on the website https://qabul.usat.uz. The password to access the site has been sent to you via SMS. If you have any questions, please call us at: 78-888-38-88",
     }
 }
 
@@ -44,7 +51,7 @@ async def send_message_via_tg_api(telegram_user: CreateTelegramUserSerializer):
     status = telegram_user.validated_data['status']
     lang = telegram_user.validated_data.get('lang', 'uz')
 
-    text = MESSAGES.get(lang, {}).get(status, "Unknown status")
+    text = get_message_text(tg_id, lang, status)
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     params = {
         'chat_id': tg_id,
@@ -57,3 +64,22 @@ async def send_message_via_tg_api(telegram_user: CreateTelegramUserSerializer):
         return {"message": "Message sent successfully"}
     else:
         return {"message": "Failed to send message", "details": response.json()}
+
+
+def get_message_text(tgId, lang, status):
+    applicant = db.get_application_status(tgId)
+
+    if applicant:
+        db.update_application_status(tgId, status)
+
+        if status == 'PASSED' and applicant['status'] == 'SUBMITTED':
+            status = 'PASSED_DTM'
+        elif status == 'ACCEPTED' and applicant['status'] == 'EXAMINED':
+            exam_result = db.get_exam_result(tgId)
+            if exam_result:
+                send_exam_result(tgId, str(exam_result['totalScore']))
+                status = 'EXAMINED'
+                db.update_application_status(tgId, status)
+
+    return MESSAGES.get(lang, {}).get(status, "Unknown status")
+

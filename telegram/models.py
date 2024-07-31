@@ -25,3 +25,17 @@ class TelegramUser(models.Model):
 
     def __str__(self):
         return self.tg_id
+
+
+class Token(models.Model):
+    token = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.token
+
+    class Meta:
+        db_table = 'tokens'
+        verbose_name = 'Token'
+        verbose_name_plural = 'Tokens'
