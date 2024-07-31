@@ -40,6 +40,7 @@ class DatabaseBot:
     def execute(self, query: str, args: tuple = (), fetchone: bool = False, fetchall: bool = False):
         try:
             self.cursor.execute(query, args)
+            self.connection.commit()
             if fetchone:
                 result = self.cursor.fetchone()
                 return result if result else None
@@ -96,6 +97,7 @@ class DatabaseMessage:
     def execute(self, query: str, args: tuple = (), fetchone: bool = False, fetchall: bool = False):
         try:
             self.cursor.execute(query, args)
+            self.connection.commit()
             if fetchone:
                 result = self.cursor.fetchone()
                 return result if result else None
