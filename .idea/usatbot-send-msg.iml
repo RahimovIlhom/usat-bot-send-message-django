@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/wvg" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (usatbot_send_msg_Django)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
