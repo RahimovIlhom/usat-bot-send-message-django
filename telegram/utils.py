@@ -52,6 +52,8 @@ async def send_message_via_tg_api(telegram_user: CreateTelegramUserSerializer):
     lang = telegram_user.validated_data.get('lang', 'uz')
 
     text = get_message_text(tg_id, lang, status)
+    if text is None:
+        return
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     params = {
         'chat_id': tg_id,
@@ -80,6 +82,7 @@ def get_message_text(tgId, lang, status):
                 send_exam_result(tgId, str(exam_result['totalScore']))
                 status = 'EXAMINED'
                 db.update_application_status(tgId, status)
+                return None
 
     return MESSAGES.get(lang, {}).get(status, "Unknown status")
 
