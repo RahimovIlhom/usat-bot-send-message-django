@@ -52,15 +52,14 @@ async def send_message_via_tg_api(telegram_user: CreateTelegramUserSerializer):
     lang = telegram_user.validated_data.get('lang', 'uz')
 
     text = get_message_text(tg_id, lang, status)
-    if text is None:
-        return
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
-    params = {
-        'chat_id': tg_id,
-        'text': text
-    }
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url, params=params)
+    if text:
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        params = {
+            'chat_id': tg_id,
+            'text': text
+        }
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, params=params)
 
     if response.status_code == 200:
         return {"message": "Message sent successfully"}
