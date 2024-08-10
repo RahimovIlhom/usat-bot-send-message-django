@@ -19,8 +19,8 @@ MESSAGES = {
         'ACCEPTED': "✅ Arizangiz qabul qilindi. Quyidagi \"🧑‍💻 Imtihon topshirish\" tugmasini bosib, imtihon topshirishingiz mumkin!",
         'EXAMINED': "🔄 Imtihon topshirilgan. Iltimos, natijasini kuting.",
         'FAILED': "😔 Afsuski imtihondan o'ta olmadingiz. Sizga yana bir imkoniyat beriladi. Buning uchun quyidagi \"🧑‍💻 Imtihon topshirish\" tugmasini bosing.",
-        'PASSED': "🥳 Tabriklaymiz! Siz Fan va texnologiyalar universitetiga tavsiya etildingiz. Shartnomani ko'chirib olish uchun pastda \"Shartnomani olish\" tugmasini bosing. Saytga kirish uchun parol sizga SMS xabar sifatida yuborilgan. Savollaringiz bo’lsa bizga qo’ng’iroq qiling: 78-888-38-88",
-        'PASSED_DTM': "🥳 Tabriklaymiz, siz imtihonsiz, UZBMB (DTM) natijangiz asosida Fan va texnologiyalar universitetiga talabalikka tavsiya etildingiz! Shartnomani ko'chirib olish uchun pastda \"Shartnomani olish\" tugmasini bosing. Saytga kirish uchun parol sizga SMS xabar sifatida yuborilgan. Savollaringiz bo’lsa bizga qo’ng’iroq qiling: 78-888-38-88",
+        'PASSED': "🥳 Tabriklaymiz! Siz Fan va texnologiyalar universitetiga tavsiya etildingiz. Shartnomani ko'chirib olish uchun pastda \"Shartnomani olish\" tugmasini bosing. Savollaringiz bo’lsa bizga qo’ng’iroq qiling: 78-888-38-88",
+        'PASSED_DTM': "🥳 Tabriklaymiz, siz imtihonsiz, UZBMB (DTM) natijangiz asosida Fan va texnologiyalar universitetiga talabalikka tavsiya etildingiz! Shartnomani ko'chirib olish uchun pastda \"Shartnomani olish\" tugmasini bosing. Savollaringiz bo’lsa bizga qo’ng’iroq qiling: 78-888-38-88",
     },
     'ru': {
         'DRAFT': "⚠️ Ваша заявка находится в черновике. Пожалуйста, проверьте и отправьте вашу заявку.",
@@ -29,8 +29,8 @@ MESSAGES = {
         'ACCEPTED': "✅ Ваша заявка принята. Вы можете сдать экзамен, нажав на кнопку \"🧑‍💻 Сдать экзамен\" ниже!",
         'EXAMINED': "🔄 Экзамен сдан. Пожалуйста, ожидайте результатов.",
         'FAILED': "😔 К сожалению, вы не прошли экзамен. Вам будет предоставлена еще одна возможность. Для этого нажмите кнопку \"🧑‍💻 Сдать экзамен\" ниже.",
-        'PASSED': "🥳 Поздравляем! Вы рекомендованы к зачислению в Университет науки и технологий. Чтобы скачать контракт, нажмите кнопку \"📥 Получить контракт\" ниже. Пароль для входа на сайт был отправлен вам в SMS. Если у вас есть вопросы, позвоните нам: 78-888-38-88",
-        'PASSED_DTM': "🥳 Поздравляем, вы успешно прошли экзамен! На основе результатов UZBMB (DTM) вы рекомендованы к зачислению в Университет науки и технологий. Чтобы скачать контракт, нажмите кнопку \"📥 Получить контракт\" ниже. Пароль для входа на сайт был отправлен вам в SMS. Если у вас есть вопросы, позвоните нам: 78-888-38-88",
+        'PASSED': "🥳 Поздравляем! Вы рекомендованы к зачислению в Университет науки и технологий. Чтобы скачать контракт, нажмите кнопку \"📥 Получить контракт\" ниже. Если у вас есть вопросы, позвоните нам: 78-888-38-88",
+        'PASSED_DTM': "🥳 Поздравляем, вы успешно прошли экзамен! На основе результатов UZBMB (DTM) вы рекомендованы к зачислению в Университет науки и технологий. Чтобы скачать контракт, нажмите кнопку \"📥 Получить контракт\" ниже. Если у вас есть вопросы, позвоните нам: 78-888-38-88",
 
     },
     'en': {
@@ -40,8 +40,8 @@ MESSAGES = {
         'ACCEPTED': "✅ Your application has been accepted. You can take the exam by clicking the \"🧑‍💻 Take the exam\" button below!",
         'EXAMINED': "🔄 The exam has been submitted. Please wait for the results.",
         'FAILED': "😔 Unfortunately, you did not pass the exam. You will be given another opportunity. To do this, click the \"🧑‍💻 Take the exam\" button below.",
-        'PASSED': "🥳 Congratulations! You have been recommended for admission to the University of Science and Technology. To download the contract, click the \"Get Contract\" button below. The password to access the site has been sent to you via SMS. If you have any questions, please call us at: 78-888-38-88",
-        'PASSED_DTM': "🥳 Congratulations, you have passed the exam! Based on your UZBMB (DTM) results, you have been recommended for admission to the University of Science and Technology. To download the contract, click the \"Get Contract\" button below. The password to access the site has been sent to you via SMS. If you have any questions, please call us at: 78-888-38-88",
+        'PASSED': "🥳 Congratulations! You have been recommended for admission to the University of Science and Technology. To download the contract, click the \"Get Contract\" button below. If you have any questions, please call us at: 78-888-38-88",
+        'PASSED_DTM': "🥳 Congratulations, you have passed the exam! Based on your UZBMB (DTM) results, you have been recommended for admission to the University of Science and Technology. To download the contract, click the \"Get Contract\" button below. If you have any questions, please call us at: 78-888-38-88",
     }
 }
 
