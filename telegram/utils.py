@@ -1,3 +1,5 @@
+import asyncio
+
 import httpx
 
 from utils.apis import send_exam_result
@@ -58,13 +60,19 @@ async def send_message_via_tg_api(telegram_user: CreateTelegramUserSerializer):
             'chat_id': tg_id,
             'text': text
         }
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url, params=params)
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(None, sync_send_message, url, params)
 
-    if response.status_code == 200:
-        return {"message": "Message sent successfully"}
-    else:
-        return {"message": "Failed to send message", "details": response.json()}
+
+def sync_send_message(url, params):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(send_message(url, params))
+
+
+async def send_message(url, params):
+    async with httpx.AsyncClient() as client:
+        await client.get(url, params=params)
 
 
 def get_message_text(tgId, lang, status):
